@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import validators from './validators'
 
 const isPromise = v =>
   v !== null 
@@ -17,38 +18,54 @@ export const toucheAllValues = fields => {
   return result
 }
 
+export const singleValidation = (validate, value, values) => {
+  if (typeof validate === 'function') {
+    return validate(value, values)
+  }
+
+  if (typeof validate === 'string') {
+    if (validators[validate]) {
+      return validators[validate](value, values)
+    }
+  }
+
+  if (typeof validate === 'object') {
+    if (typeof validate.validate === 'function') {
+      return validate.validate(value, values)
+    }
+  }
+
+  return undefined
+}
+
+export const validateSingleField = (validate, value, values) => {
+  if (Array.isArray(validate)) {
+    for (let i = 0; i < validate.length; i++) {
+      const err = singleValidation(validate[i], value, values)
+      if (err !== undefined) {
+        return err
+      }
+    }
+  } else {
+    return singleValidation(validate, value, values)
+  }
+
+  return undefined
+}
+
 export const validateFields = (fields, values, setError) => {
   const errors = {}
-
-  const promises = []
 
   Object
     .keys(fields)
     .map(async fieldName => {
-      if (fields[fieldName].validate && typeof fields[fieldName].validate === 'function') {
+      if (fields[fieldName].validate) {
         const value = get(values, fieldName)
-        const fieldError = fields[fieldName].validate(value, values)
-        if (isPromise(fieldError)) {
-          promises.push(
-            fieldError
-              .then(err => {
-                setError({
-                  [fieldName]: err
-                })
-              })
-          )
-        } else {
-          if (fieldError) {
-            errors[fieldName] = fieldError
-          }
+        const fieldError = validateSingleField(fields[fieldName].validate, value, values)
+        if (typeof fieldError !== 'undefined') {
+          errors[fieldName] = fieldError
         }
       }
-    })
-  
-  Promise
-    .all(promises)
-    .then(errs => {
-      
     })
 
   return errors

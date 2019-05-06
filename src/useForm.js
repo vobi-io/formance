@@ -75,7 +75,7 @@ function useForm({
 
     if (!formState.fields[name].validationDisabled
       && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
-      const errors = await validateAllLevel(formState.fields, formState.values, validate, setError)
+      const errors = validateAllLevel(formState.fields, newValues, validate, setError)
       const valid = Object.keys(errors).length === 0
       newState.errors = errors
       newState.valid = valid
