@@ -32,10 +32,6 @@ export const validateFields = (fields, values, setError) => {
           promises.push(
             fieldError
               .then(err => {
-                console.log('TCL: validateFields -> err', {
-                  [fieldName]: err
-                })      
-                
                 setError({
                   [fieldName]: err
                 })
@@ -52,7 +48,6 @@ export const validateFields = (fields, values, setError) => {
   Promise
     .all(promises)
     .then(errs => {
-			console.log('TCL: validateFields -> errs', errs)
       
     })
 
