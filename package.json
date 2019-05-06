@@ -1,0 +1,33 @@
+{
+  "name": "formance",
+  "version": "0.0.1-alpha",
+  "description": "Reusable form library for React",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "repository": "vobi-io/formance",
+  "keywords": [
+    "react",
+    "form"
+  ],
+  "files": [
+    "lib/*"
+  ],
+  "scripts": {
+    "prepublishOnly": "babel ./src --out-dir ./lib -s inline"
+  },
+  "author": "vobi.io",
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
