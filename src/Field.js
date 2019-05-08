@@ -34,6 +34,8 @@ const Field = ({
   validationDisabled,
   validationPolicy,
   errorDisplayPolicy,
+  errorClassName,
+  className,
   component = 'input',
   render,
   children,
@@ -98,6 +100,18 @@ const Field = ({
     onFocus: form.onFocus,
     ...props,
   }
+
+  let classNames = []
+  if (className) {
+    classNames.push(className)
+  }
+  if (errorClassName && form.errors[name]) {
+    classNames.push(errorClassName)
+  }
+  if (classNames.length > 0) {
+    field.className = classNames.join(' ')
+  }
+
   if (type) {
     field.type = type
   }
