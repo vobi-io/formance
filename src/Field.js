@@ -43,6 +43,10 @@ const Field = ({
 }) => {
   const form = useContext(FormContext)
 
+  const errDisplayPolicy = errorDisplayPolicy
+    ? errorDisplayPolicy
+    : form.errorDisplayPolicy
+
   const firstTime = useRef(false)
   if (!firstTime.current) {
     const options = {}
@@ -51,9 +55,7 @@ const Field = ({
       ? validationPolicy
       : form.validationPolicy
     
-    options.errorDisplayPolicy = errorDisplayPolicy
-      ? errorDisplayPolicy
-      : form.errorDisplayPolicy
+    options.errorDisplayPolicy = errDisplayPolicy
     
     if (initialValue !== undefined) {
       options.initialValue = initialValue
@@ -105,9 +107,21 @@ const Field = ({
   if (className) {
     classNames.push(className)
   }
-  if (errorClassName && form.errors[name]) {
-    classNames.push(errorClassName)
+
+  const errorToBeDisplayed =
+    (errDisplayPolicy === 'touched' && form.touched[name])
+    || (errDisplayPolicy === 'touched-and-submitted' && form.touched[name] && form.submitted)
+
+  if (errorToBeDisplayed) {
+    if (form.errors[name]) {
+      if (errorClassName) {
+        classNames.push(errorClassName)
+      } else if (form.errorClassName) {
+        classNames.push(form.errorClassName)
+      }
+    }
   }
+
   if (classNames.length > 0) {
     field.className = classNames.join(' ')
   }

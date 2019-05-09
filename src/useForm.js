@@ -17,6 +17,7 @@ function useForm({
   isMounted,
   validators,
   validate,
+  errorClassName,
   validationPolicy = 'onBlur-and-onChange',
   errorDisplayPolicy = 'touched',
 }) {
@@ -227,6 +228,7 @@ function useForm({
     onSubmit,
     validationPolicy,
     errorDisplayPolicy,
+    errorClassName,
   }
 }
 

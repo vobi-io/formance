@@ -8,6 +8,7 @@ const Form = ({
   validate,
   validationPolicy = 'onBlur-and-onChange',
   errorDisplayPolicy = 'touched',
+  errorClassName,
   render,
   children,
 }) => {
@@ -32,6 +33,7 @@ const Form = ({
     validate,
     validationPolicy,
     errorDisplayPolicy,
+    errorClassName,
     isMounted: isMounted.current
   })
 
