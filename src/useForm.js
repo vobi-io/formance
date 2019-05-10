@@ -85,6 +85,38 @@ function useForm({
     setFormState(newState)
   }
 
+  const setValues = values => {
+    const newValues = cloneDeep(formState.values)
+    
+    let shouldValidationRun = false
+
+    Object
+      .keys(values)
+      .forEach(name => {
+        set(newValues, name, values[name])
+
+        if (!shouldValidationRun) {
+          if (!formState.fields[name].validationDisabled
+            && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
+            shouldValidationRun = true
+          }
+        }
+      })
+  
+    const newState = {
+      values: newValues,
+    }
+  
+    if (shouldValidationRun) {
+      const errors = validateAllLevel(formState.fields, newValues, validate, setError)
+      const valid = Object.keys(errors).length === 0
+      newState.errors = errors
+      newState.valid = valid
+    }
+
+    setFormState(newState)
+  }
+
   const onChange = e => {
     change(
       e.target.name, 
@@ -213,6 +245,7 @@ function useForm({
     ...formState,
     dispatch,
     change,
+    setValues,
     onChange,
     touch,
     onBlur,
