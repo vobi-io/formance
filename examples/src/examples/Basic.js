@@ -27,8 +27,6 @@ const BasicExample = () => {
       submitHandler={submitHandler}
     >
       {({ onSubmit, valid, submitting }) => {
-				console.log('TCL: BasicExample -> valid', valid)
-        
         return (
           <form onSubmit={onSubmit}>
             <Field
@@ -57,7 +55,7 @@ const BasicExample = () => {
 
             <button
               type="submit"
-              disabled={!valid || submitting}
+              disabled={(!valid && submitted) || submitting}
             >
               Save
             </button>
