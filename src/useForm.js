@@ -74,12 +74,14 @@ function useForm({
       values: newValues,
     }
 
-    if (!formState.fields[name].validationDisabled
-      && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
-      const errors = validateAllLevel(formState.fields, newValues, validate, setError)
-      const valid = Object.keys(errors).length === 0
-      newState.errors = errors
-      newState.valid = valid
+    if (formState.fields[name]) {
+      if (!formState.fields[name].validationDisabled
+        && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
+        const errors = validateAllLevel(formState.fields, newValues, validate, setError)
+        const valid = Object.keys(errors).length === 0
+        newState.errors = errors
+        newState.valid = valid
+      }
     }
 
     setFormState(newState)
@@ -95,10 +97,12 @@ function useForm({
       .forEach(name => {
         set(newValues, name, values[name])
 
-        if (!shouldValidationRun) {
-          if (!formState.fields[name].validationDisabled
-            && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
-            shouldValidationRun = true
+        if (formState.fields[name]) {
+          if (!shouldValidationRun) {
+            if (!formState.fields[name].validationDisabled
+              && ['onChange', 'onBlur-and-onChange'].includes(formState.fields[name].validationPolicy)) {
+              shouldValidationRun = true
+            }
           }
         }
       })
