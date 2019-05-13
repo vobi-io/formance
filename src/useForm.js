@@ -19,7 +19,7 @@ function useForm({
   validate,
   errorClassName,
   validationPolicy = 'onBlur-and-onChange',
-  errorDisplayPolicy = 'touched',
+  errorDisplayPolicy = 'touched-and-submitted',
 }) {
   if (!reducer) {
     reducer = reducerFactory(customReducers)
