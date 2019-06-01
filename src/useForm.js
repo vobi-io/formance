@@ -238,7 +238,7 @@ function useForm({
       return
     }
 
-    await submitHandler(formState.values, { setSubmitting, setValues })
+    await submitHandler(formState.values, { setSubmitting, setValues, setFormState })
 
     if (isMounted) {
       setSubmitting(false)
