@@ -7,7 +7,7 @@ const Form = ({
   submitHandler,
   validate,
   validationPolicy = 'onBlur-and-onChange',
-  errorDisplayPolicy = 'touched',
+  errorDisplayPolicy = 'touched-and-submitted',
   errorClassName,
   render,
   children,
