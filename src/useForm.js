@@ -21,6 +21,15 @@ function useForm({
   validationPolicy = 'onBlur-and-onChange',
   errorDisplayPolicy = 'touched-and-submitted',
 }) {
+  const firstRender = useRef(true)
+  useEffect(() => {
+    if (!firstRender.current) {
+      setValues(initialValues)
+    } else {
+      firstRender.current = false
+    }
+  }, [initialValues])
+
   if (!reducer) {
     reducer = reducerFactory(customReducers)
   }
