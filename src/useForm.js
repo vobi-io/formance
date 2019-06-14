@@ -218,11 +218,7 @@ function useForm({
     })
   }
 
-  const onSubmit = async e => {
-    if (e && e.preventDefault) {
-      e.preventDefault()
-    }
-
+  const handleSubmit = async context => {
     const touched = toucheAllValues(formState.fields)
 
     setFormState({
@@ -247,11 +243,19 @@ function useForm({
       return
     }
 
-    await submitHandler(formState.values, { setSubmitting, setValues, setFormState })
+    await submitHandler(formState.values, { context, setSubmitting, setValues, setFormState })
 
     if (isMounted) {
       setSubmitting(false)
     }
+  }
+
+  const onSubmit = async e => {
+    if (e && e.preventDefault) {
+      e.preventDefault()
+    }
+    
+    await handleSubmit()
   }
 
   return {
@@ -272,6 +276,7 @@ function useForm({
     setErrors,
     setError,
     onSubmit,
+    handleSubmit,
     validationPolicy,
     errorDisplayPolicy,
     errorClassName,
